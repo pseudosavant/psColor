@@ -1,7 +1,7 @@
-psColor.js
-==========
+psColor
+=======
 
-psColor.js is a small JavaScript library for calculating the average color of an
+psColor is a small JavaScript library for calculating the average color of an
 `<img>` element in the browser.
 
 Usage
