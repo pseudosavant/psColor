@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>psColor.js Demo</title>
+    <style>
+        * {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        label {
+            width: 75px;
+            display: inline-block;
+        }
+
+        input[type=text] {
+            width: 50px;
+            padding: 0.5em;
+            margin: 0.25em 0.25em 0.5em;
+        }
+
+        .image {
+            padding: 20px;
+            display: inline-block;
+            margin: 10px;
+            border: 2px solid #EEE;
+        }
+
+        .image img {
+            border: 2px dashed rgba(128,128,128,0.5);
+        }
+    </style>
+</head>
+<body>
+    <form id="options">
+        <label for="tooDark">Too Dark:</label><input type="text" id="tooDark" placeholder="0.03" /><br />
+        <label for="tooLight">Too Light:</label><input type="text" id="tooLight" placeholder="0.97" /><br />
+        <label for="tooAlpha">Too Alpha:</label><input type="text" id="tooAlpha" placeholder="0.1" /><br />
+        <input type="submit" value="Calc"/>
+        <input type="reset" value="Reset" />
+    </form>
+    <div id="images">
+        <div class="image"><img src="images/anandtech.png" /></div>
+        <div class="image"><img src="images/arstechnica.png" /></div>
+        <div class="image"><img src="images/engadget.png" /></div>
+        <div class="image"><img src="images/espn.png" /></div>
+        <div class="image"><img src="images/google.png" /></div>
+        <div class="image"><img src="images/hackernews.png" /></div>
+        <div class="image"><img src="images/macrumors.png" /></div>
+        <div class="image"><img src="images/nordstrom.png" /></div>
+        <div class="image"><img src="images/slickdeals.png" /></div>
+        <div class="image"><img src="images/techmeme.png" /></div>
+        <div class="image"><img src="images/theverge.png" /></div>
+        <div class="image"><img src="images/time.png" /></div>
+        <div class="image"><img src="images/trello.png" /></div>
+    </div>
+    <div id="performance"></div>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="../psColor.js"></script>
+    <script>
+        (function (global) {
+            var $ = global.jQuery;
+
+            $('#options').submit(function (e) {
+                e.preventDefault();
+                var count = 0;
+                var start = +new Date();
+
+                var opts = {
+                    tooDark: +$('#tooDark').val(),
+                    tooLight: +$('#tooLight').val(),
+                    tooAlpha: +$('#tooAlpha').val()
+                };
+
+                $('.image').each(function () {
+                    var parent = this;
+                    var img = $(this).children('img').get(0);
+
+                    var color = ps.color.getImageAverageColor(img, opts);
+                    var hexColor = '#' + color.toStringHex();
+
+                    $(parent).css({ 'background-color': hexColor });
+                    count++
+                });
+
+                var duration = +new Date() - start;
+                $('#performance').html(count + ' images processed in ' + duration + 'ms');
+            })
+        })(this);
+    </script>
+</body>
+</html>
